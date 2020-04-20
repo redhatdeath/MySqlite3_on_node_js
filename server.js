@@ -6,24 +6,25 @@ var Global_String = " ";
 
 
 app.get("/", function(req,res){
-	Global_String = workGet(); 
-	console.log(Global_String);		
-	//res.end(Global_String);
+	workGet().then(result => {   
+		Global_String = result; 
+		console.log(Global_String); 
+		res.end(Global_String);
+	});
 });
 app.listen(8081, function(){	console.log("Server is started at 8081");})
 
 
 function selectAll() {
 	var rezult=[];
-    db.each('SELECT * FROM Test',
+    db.each('SELECT * FROM Test Where Key < 10',
 		function(err, row) {
 			var a = row.Key + ', ' +
 					row.Name + ', ' +
 					row.Surname + ', ' +
 					row.SecondName + ', ' +
-					row.Mark + '\n';
-			rezult.push(a);
-			//console.log(a);			
+					row.Mark;
+			rezult.push(a);			
 		}	
 	);
 	return rezult;
